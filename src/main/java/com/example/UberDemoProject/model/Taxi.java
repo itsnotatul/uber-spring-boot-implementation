@@ -1,9 +1,7 @@
 package com.example.UberDemoProject.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.UberDemoProject.TaxiType;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
@@ -16,13 +14,16 @@ public class Taxi implements Serializable { // implements Serializable for remov
     private Double latitude;   // Latitude of the taxi location
     private Double longitude;  // Longitude of the taxi location
     private Boolean available; // Availability status
-    private String taxiType;  // Go, XL, Sedan
 
-    public String getTaxiType() {
+    @Enumerated(EnumType.STRING) // Maps the enum as a string in the database
+    private TaxiType taxiType;  // Go, XL, Sedan
+
+
+    public TaxiType getTaxiType() {
         return taxiType;
     }
 
-    public void setTaxiType(String taxiType) {
+    public void setTaxiType(TaxiType taxiType) {
         this.taxiType = taxiType;
     }
 
