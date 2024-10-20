@@ -1,5 +1,7 @@
 package com.example.UberDemoProject;
 
+import com.example.UberDemoProject.enums.TaxiType;
+
 import java.time.LocalDateTime;
 
 public class TaxiBookingRequest {

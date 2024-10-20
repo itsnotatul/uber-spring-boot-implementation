@@ -1,4 +1,4 @@
-package com.example.UberDemoProject;
+package com.example.UberDemoProject.enums;
 
 public enum TaxiType {
     go,

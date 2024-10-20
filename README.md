@@ -85,3 +85,36 @@ O/P:
 "taxiType": "go"
 }
 ]
+
+#FR #2:
+
+POST: http://localhost:8080/taxis/book
+
+body:
+
+{
+"taxiId": 4,
+"distance": 10,
+"bookingTime": "2024-10-20T01:30:00",
+"taxiType": "sedan"
+}
+
+Taxi booked successfully. Fare: 1520.0
+
+{
+"taxiId": 14,
+"distance": 10,
+"bookingTime": "2024-10-20T01:30:00",
+"taxiType": "sedan"
+}
+
+Taxi with ID 14 not found.
+
+{
+"taxiId": 4,
+"distance": 10,
+"bookingTime": "2024-10-20T01:30:00",
+"taxiType": "sedan"
+}
+
+Taxi with ID 4 is not available.

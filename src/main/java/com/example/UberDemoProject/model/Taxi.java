@@ -1,6 +1,6 @@
 package com.example.UberDemoProject.model;
 
-import com.example.UberDemoProject.TaxiType;
+import com.example.UberDemoProject.enums.TaxiType;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

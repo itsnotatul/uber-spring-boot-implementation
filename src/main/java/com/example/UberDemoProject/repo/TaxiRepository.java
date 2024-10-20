@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface TaxiRepository extends JpaRepository<Taxi,Long> {
 
@@ -17,5 +19,7 @@ public interface TaxiRepository extends JpaRepository<Taxi,Long> {
                                         @Param("maxLat") Double maxLat,
                                         @Param("minLng") Double minLng,
                                         @Param("maxLng") Double maxLng);
+
+    Optional<Taxi> findById(Long id);
 
 }
