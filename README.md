@@ -21,6 +21,29 @@ INSERT INTO taxi (latitude, longitude, available, taxi_type) VALUES
 (12.9400, 77.5700, TRUE, 'go');
 
 
+//USER Table:
+
+INSERT INTO app_user (name) VALUES ('John Doe');
+
+INSERT INTO app_user (name) VALUES ('Jane Smith');
+
+INSERT INTO app_user (name) VALUES ('Michael Johnson');
+
+INSERT INTO app_user (name) VALUES ('Emily Davis');
+
+INSERT INTO app_user (name) VALUES ('Robert Brown');
+
+INSERT INTO app_user (name) VALUES ('Sophia Wilson');
+
+INSERT INTO app_user (name) VALUES ('Liam Taylor');
+
+INSERT INTO app_user (name) VALUES ('Olivia Martin');
+
+INSERT INTO app_user (name) VALUES ('Noah Thompson');
+
+INSERT INTO app_user (name) VALUES ('Emma White');
+
+
 #FR #1
 
  GET http://localhost:8080/taxis/available?latitude=12.9716&longitude=77.5946

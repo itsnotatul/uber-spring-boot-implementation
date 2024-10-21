@@ -6,10 +6,19 @@ import java.time.LocalDateTime;
 
 public class TaxiBookingRequest {
 
+    private Long userId;
     private Long taxiId; // taxi unique identifier is an ID (Primary KEY in entity taxi)
     private TaxiType taxiType;
     private LocalDateTime bookingTime;
     private double distance;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public Long getTaxiId() {
         return taxiId;

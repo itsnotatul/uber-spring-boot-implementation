@@ -1,6 +1,7 @@
 package com.example.UberDemoProject.controller;
 
 import com.example.UberDemoProject.TaxiBookingRequest;
+import com.example.UberDemoProject.model.Booking;
 import com.example.UberDemoProject.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
