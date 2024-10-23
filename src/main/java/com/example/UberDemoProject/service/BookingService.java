@@ -1,6 +1,6 @@
 package com.example.UberDemoProject.service;
 
-import com.example.UberDemoProject.TaxiBookingRequest;
+import com.example.UberDemoProject.dto.TaxiBookingRequest;
 import com.example.UberDemoProject.model.Booking;
 import com.example.UberDemoProject.model.Taxi;
 import com.example.UberDemoProject.model.User;

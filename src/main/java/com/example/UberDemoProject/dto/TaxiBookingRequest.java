@@ -1,4 +1,4 @@
-package com.example.UberDemoProject;
+package com.example.UberDemoProject.dto;
 
 import com.example.UberDemoProject.enums.TaxiType;
 
