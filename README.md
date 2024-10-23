@@ -59,20 +59,6 @@ O/P:
 "taxiType": "sedan"
 },
 {
-"id": 2,
-"latitude": 12.975,
-"longitude": 77.59,
-"available": true,
-"taxiType": "go"
-},
-{
-"id": 4,
-"latitude": 12.956,
-"longitude": 77.6,
-"available": true,
-"taxiType": "go"
-},
-{
 "id": 5,
 "latitude": 12.97,
 "longitude": 77.61,
@@ -109,6 +95,7 @@ O/P:
 }
 ]
 
+
 #FR #2:
 
 POST: http://localhost:8080/taxis/book
@@ -116,15 +103,17 @@ POST: http://localhost:8080/taxis/book
 body:
 
 {
-"taxiId": 4,
+"userId":2,    
+"taxiId": 5,
 "distance": 10,
-"bookingTime": "2024-10-20T01:30:00",
+"bookingTime": "2024-10-23T01:30:00",
 "taxiType": "sedan"
 }
 
-Taxi booked successfully. Fare: 1520.0
+Taxi booked successfully. Booking ID: 2. Status: PENDING. Please proceed to payment.
 
 {
+"userId":2,   
 "taxiId": 14,
 "distance": 10,
 "bookingTime": "2024-10-20T01:30:00",
@@ -134,6 +123,7 @@ Taxi booked successfully. Fare: 1520.0
 Taxi with ID 14 not found.
 
 {
+"userId":2,   
 "taxiId": 4,
 "distance": 10,
 "bookingTime": "2024-10-20T01:30:00",
@@ -141,3 +131,41 @@ Taxi with ID 14 not found.
 }
 
 Taxi with ID 4 is not available.
+
+
+#FR #3: GET: http://localhost:8080/user/booking?userId=2
+
+O/p:
+
+[
+{
+"id": 2,
+"taxi": {
+"id": 5,
+"latitude": 12.97,
+"longitude": 77.61,
+"available": false,
+"taxiType": "sedan"
+},
+"taxiType": "sedan",
+"bookingTime": "2024-10-23T01:30:00",
+"distance": 10.0,
+"bookingStatus": "PENDING"
+}
+]
+
+#FR #4: POST: http://localhost:8080/payment
+
+{
+"bookingId":23
+}
+
+O/P:
+
+Booking with ID 23 not found.
+
+{
+"bookingId":2
+}
+
+Payment successful. Booking ID: 2. Status: SUCCESS

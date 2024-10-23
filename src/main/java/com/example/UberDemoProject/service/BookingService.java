@@ -1,6 +1,7 @@
 package com.example.UberDemoProject.service;
 
 import com.example.UberDemoProject.dto.TaxiBookingRequest;
+import com.example.UberDemoProject.enums.BookingStatus;
 import com.example.UberDemoProject.model.Booking;
 import com.example.UberDemoProject.model.Taxi;
 import com.example.UberDemoProject.model.User;
@@ -36,25 +37,18 @@ public class BookingService {
 
         // Check if the taxi ID exists
         Optional<Taxi> taxiOptional = taxiRepository.findById(request.getTaxiId());
-        Taxi taxi = taxiOptional.get();
         if (!taxiOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Taxi with ID " + request.getTaxiId()+ " not found.");
         }
 
+        Taxi taxi = taxiOptional.get();
         // Check if the taxi is available
         if (!taxi.getAvailable()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Taxi with ID " + request.getTaxiId() + " is not available.");
         }
-        // Calculate fare
-        double fare = pricingService.calculatePrice(request.getTaxiType(), request.getBookingTime(), request.getDistance());
 
-        // Mark taxi as unavailable (as it is now booked)
-        taxi.setAvailable(false);
-        taxiRepository.save(taxi);
-
-        // save this booking in the system:
         // Fetch the user based on userId
         Optional<User> userOptional = userRepository.findById(request.getUserId());
         if (!userOptional.isPresent()) {
@@ -63,17 +57,27 @@ public class BookingService {
         }
         User user = userOptional.get();
 
+        // Calculate fare
+        double fare = pricingService.calculatePrice(request.getTaxiType(), request.getBookingTime(), request.getDistance());
+
+        // Mark taxi as unavailable (as it is now being booked: IN PROGRESS)
+        taxi.setAvailable(false);
+        taxiRepository.save(taxi);
+
+        // save this booking in the system:
         Booking booking = new Booking();
         booking.setTaxi(taxi);
         booking.setUser(user);
         booking.setBookingTime(request.getBookingTime());
         booking.setTaxiType(request.getTaxiType());
         booking.setDistance(request.getDistance());
+        booking.setBookingStatus(BookingStatus.PENDING); //SAVE it as pending until the payment API response
 
         // Save the booking in the database
         bookingRepository.save(booking);
 
-        return ResponseEntity.ok("Taxi booked successfully. Price: " + fare);
+        return ResponseEntity.ok("Taxi booked successfully. Booking ID: " + booking.getId() +
+                ". Status: PENDING. Please proceed to payment.");
     }
 
     public List<Booking> getUserBookings(Long userId, int page, int size) {

@@ -1,6 +1,7 @@
 package com.example.UberDemoProject.model;
 
 import com.example.UberDemoProject.enums.TaxiType;
+import com.example.UberDemoProject.enums.BookingStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -25,6 +26,13 @@ public class Booking {
     private LocalDateTime bookingTime;
     private double distance;
 
+    @Enumerated(EnumType.STRING)
+    private BookingStatus bookingStatus; // Track payment status (PENDING, SUCCESS, FAILED)
+
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
@@ -34,7 +42,12 @@ public class Booking {
                 ", taxiType=" + taxiType +
                 ", bookingTime=" + bookingTime +
                 ", distance=" + distance +
+                ", bookingStatus=" + bookingStatus +
                 '}';
+    }
+
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
     }
 
     public Long getId() {
