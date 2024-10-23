@@ -7,10 +7,14 @@ import com.example.UberDemoProject.model.User;
 import com.example.UberDemoProject.repo.BookingRepository;
 import com.example.UberDemoProject.repo.TaxiRepository;
 import com.example.UberDemoProject.repo.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -70,5 +74,12 @@ public class BookingService {
         bookingRepository.save(booking);
 
         return ResponseEntity.ok("Taxi booked successfully. Price: " + fare);
+    }
+
+    public List<Booking> getUserBookings(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Booking> bookingPage = bookingRepository.findByUserId(userId,pageable);
+
+        return  bookingPage.getContent();
     }
 }

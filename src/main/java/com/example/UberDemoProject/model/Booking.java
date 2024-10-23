@@ -1,6 +1,7 @@
 package com.example.UberDemoProject.model;
 
 import com.example.UberDemoProject.enums.TaxiType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore         // will ignore this while serialising the result, preventing infinite recursion
     private User user; // Reference to the User
 
     @ManyToOne
@@ -22,6 +24,18 @@ public class Booking {
     private TaxiType taxiType;
     private LocalDateTime bookingTime;
     private double distance;
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", user=" + user.getId() +
+                ", taxi=" + taxi.getId() +
+                ", taxiType=" + taxiType +
+                ", bookingTime=" + bookingTime +
+                ", distance=" + distance +
+                '}';
+    }
 
     public Long getId() {
         return id;

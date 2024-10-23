@@ -51,6 +51,17 @@ public class Taxi implements Serializable { // implements Serializable for remov
         this.longitude = longitude;
     }
 
+    @Override
+    public String toString() {
+        return "Taxi{" +
+                "id=" + id +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", available=" + available +
+                ", taxiType=" + taxiType +
+                '}';
+    }
+
     public Boolean getAvailable() {
         return available;
     }

@@ -37,6 +37,15 @@ public class User {
         return bookings;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", bookings=" + bookings +
+                '}';
+    }
+
     public void setBookings(Set<Booking> bookings) {
         this.bookings = bookings;
     }
