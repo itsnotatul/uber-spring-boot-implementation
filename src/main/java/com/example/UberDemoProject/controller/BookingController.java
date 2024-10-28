@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class BookingController {
 
     @Autowired
@@ -20,7 +21,7 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @PostMapping("/taxis/book")
+    @PostMapping("/taxi/book")  // post endpoint for booking taxi
     public ResponseEntity<String> bookTaxi(@RequestBody TaxiBookingRequest request) {
         return bookingService.bookTaxi(request);
 
