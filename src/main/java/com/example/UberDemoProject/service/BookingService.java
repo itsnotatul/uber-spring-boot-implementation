@@ -36,29 +36,29 @@ public class BookingService {
     public ResponseEntity<String> bookTaxi(TaxiBookingRequest request) {
 
         // Check if the taxi ID exists
-        Optional<Taxi> taxiOptional = taxiRepository.findById(request.getTaxiId());
+        Optional<Taxi> taxiOptional = taxiRepository.findById(request.taxiId());
         if (!taxiOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Taxi with ID " + request.getTaxiId()+ " not found.");
+                    .body("Taxi with ID " + request.taxiId()+ " not found.");
         }
 
         Taxi taxi = taxiOptional.get();
         // Check if the taxi is available
         if (!taxi.getAvailable()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Taxi with ID " + request.getTaxiId() + " is not available.");
+                    .body("Taxi with ID " + request.taxiId() + " is not available.");
         }
 
         // Fetch the user based on userId
-        Optional<User> userOptional = userRepository.findById(request.getUserId());
+        Optional<User> userOptional = userRepository.findById(request.userId());
         if (!userOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("User with ID " + request.getUserId() + " not found.");
+                    .body("User with ID " + request.userId() + " not found.");
         }
         User user = userOptional.get();
 
         // Calculate fare
-        double fare = pricingService.calculatePrice(request.getTaxiType(), request.getBookingTime(), request.getDistance());
+        double fare = pricingService.calculatePrice(request.taxiType(), request.bookingTime(), request.distance());
 
         // Mark taxi as unavailable (as it is now being booked: IN PROGRESS)
         taxi.setAvailable(false);
@@ -68,9 +68,9 @@ public class BookingService {
         Booking booking = new Booking();
         booking.setTaxi(taxi);
         booking.setUser(user);
-        booking.setBookingTime(request.getBookingTime());
-        booking.setTaxiType(request.getTaxiType());
-        booking.setDistance(request.getDistance());
+        booking.setBookingTime(request.bookingTime());
+        booking.setTaxiType(request.taxiType());
+        booking.setDistance(request.distance());
         booking.setBookingStatus(BookingStatus.PENDING); //SAVE it as pending until the payment API response
 
         // Save the booking in the database

@@ -2,10 +2,16 @@ package com.example.UberDemoProject.model;
 
 import com.example.UberDemoProject.enums.TaxiType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Taxi implements Serializable { // implements Serializable for removing redis caching error.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // this annotation is to tell JPA that this parameter will be auto generated in database and GenerationType.IDENTITY tells it to use auto increment feature on every addition of entity
@@ -17,56 +23,4 @@ public class Taxi implements Serializable { // implements Serializable for remov
 
     @Enumerated(EnumType.STRING) // Maps the enum as a string in the database
     private TaxiType taxiType;  // Go, XL, Sedan
-
-
-    public TaxiType getTaxiType() {
-        return taxiType;
-    }
-
-    public void setTaxiType(TaxiType taxiType) {
-        this.taxiType = taxiType;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    @Override
-    public String toString() {
-        return "Taxi{" +
-                "id=" + id +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", available=" + available +
-                ", taxiType=" + taxiType +
-                '}';
-    }
-
-    public Boolean getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
 }

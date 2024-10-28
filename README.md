@@ -169,3 +169,49 @@ Booking with ID 23 not found.
 }
 
 Payment successful. Booking ID: 2. Status: SUCCESS
+
+
+
+# Problems Faced
+1. # Why Does Infinite Recursion Happen?
+   Infinite recursion can happen when two or more entities have bidirectional relationships, meaning each entity holds
+   a reference to the other.
+
+In your example:
+
+The Booking entity has a User reference.
+The User entity has a list of Booking references (because a user can have multiple bookings).
+If you try to serialize the Booking entity (e.g., to return it as JSON in a REST API response), 
+Jackson (the default JSON serializer in Spring Boot) will attempt to serialize the User object inside Booking. 
+Then, because User has a reference back to Booking, Jackson will again try to serialize Booking, which again 
+references User, and this loop continues infinitely.
+
+Solution
+To avoid this, we use @JsonIgnore or @ToString.Exclude annotations to break the loop. 
+@JsonIgnore on the User field in Booking prevents Jackson from serializing User when it’s in Booking. 
+Similarly, @ToString.Exclude prevents User's toString from including the Booking reference, breaking 
+the loop during string operations.
+
+2. # Why Do Some Entities Need to Implement Serializable?
+   Caching Solutions (e.g., Redis):
+
+   Many caching solutions like Redis use serialization to store objects. Since Redis stores data in a byte format,
+   entity classes that are cached typically need to be serializable so they can be easily stored and retrieved
+   without loss of structure or state.
+
+   # When is it Necessary?
+   Entities don’t always need to implement Serializable. It’s typically required when:
+
+   The entity will be cached or stored in external storage as a byte stream.
+   You’re using an environment or framework (like Redis caching) that explicitly requires serialization.
+   For regular database persistence with JPA/Hibernate without caching or distributed requirements, Serializable is
+   generally not necessary.
+
+
+3. # @ToString.Exclude 
+   If present, do not include this field in the generated toString.
+
+
+4. # @JsonIgnore
+   When serializing your object into Json, the fields that are tagged with @JsonIgnore will not be included in the 
+   serialized Json object. This attribute is read by the Json serialize using reflection.

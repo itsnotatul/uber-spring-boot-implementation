@@ -24,7 +24,7 @@ public class PaymentController {
 
     @PostMapping("/payment")
     public ResponseEntity<String> processPayment(@RequestBody PaymentRequest paymentRequest) {
-        Long bookingId = paymentRequest.getBookingId();
+        Long bookingId = paymentRequest.bookingID();
         Optional<Booking> bookingOptional = bookingRepository.findById(bookingId);
 
         //Check whether or not it is valid booking ID

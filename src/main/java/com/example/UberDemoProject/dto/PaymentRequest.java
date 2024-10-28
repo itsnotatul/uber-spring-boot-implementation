@@ -1,14 +1,7 @@
 package com.example.UberDemoProject.dto;
 
-public class PaymentRequest {
-    private Long bookingId;
+// with help of record, now its immutable and no setters obviously as DTO's purpose is to pass the data around and to not get modified after creation.
+public record PaymentRequest(Long bookingID){
 
-    // Getters and setters
-    public Long getBookingId() {
-        return bookingId;
-    }
+};
 
-    public void setBookingId(Long bookingId) {
-        this.bookingId = bookingId;
-    }
-}
