@@ -1,7 +1,11 @@
 package com.example.UberDemoProject.service;
 
 import com.example.UberDemoProject.dto.TaxiBookingRequest;
+import com.example.UberDemoProject.dto.TaxiBookingResponse;
 import com.example.UberDemoProject.enums.BookingStatus;
+import com.example.UberDemoProject.exception.exceptions.TaxiNotFoundException;
+import com.example.UberDemoProject.exception.exceptions.TaxiUnavailableException;
+import com.example.UberDemoProject.exception.exceptions.UserNotFoundException;
 import com.example.UberDemoProject.model.Booking;
 import com.example.UberDemoProject.model.Taxi;
 import com.example.UberDemoProject.model.User;
@@ -9,6 +13,7 @@ import com.example.UberDemoProject.repo.BookingRepository;
 import com.example.UberDemoProject.repo.TaxiRepository;
 import com.example.UberDemoProject.repo.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,33 +26,34 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class BookingService {
     private final PricingService pricingService;
     private final TaxiRepository taxiRepository;
     private final BookingRepository bookingRepository;  // Add the booking repository to save bookings
     private final UserRepository userRepository;
 
-    public ResponseEntity<String> bookTaxi(TaxiBookingRequest request) {
+    public TaxiBookingResponse bookTaxi(TaxiBookingRequest request) {
 
         // Check if the taxi ID exists
         Optional<Taxi> taxiOptional = taxiRepository.findById(request.taxiId());
         if (!taxiOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Taxi with ID " + request.taxiId()+ " not found.");
+            log.info("Taxi not valid");
+            throw new TaxiNotFoundException("Taxi with ID " + request.taxiId()+ " not found.");
         }
 
         Taxi taxi = taxiOptional.get();
         // Check if the taxi is available
         if (!taxi.getAvailable()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Taxi with ID " + request.taxiId() + " is not available.");
+            log.info("Selected taxi is not available");
+            throw new TaxiUnavailableException("Taxi with ID " + request.taxiId() + " is not available.");
         }
 
         // Fetch the user based on userId
         Optional<User> userOptional = userRepository.findById(request.userId());
         if (!userOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("User with ID " + request.userId() + " not found.");
+            log.info("User not valid");
+            throw new UserNotFoundException("User with ID " + request.userId() + " not found.");
         }
         User user = userOptional.get();
 
@@ -70,8 +76,8 @@ public class BookingService {
         // Save the booking in the database
         bookingRepository.save(booking);
 
-        return ResponseEntity.ok("Taxi booked successfully. Booking ID: " + booking.getId() +
-                ". Status: PENDING. Please proceed to payment.");
+        return new TaxiBookingResponse(booking.getId(),"PENDING","Taxi booked successfully. Please proceed to payment." );
+
     }
 
     public List<Booking> getUserBookings(Long userId, int page, int size) {

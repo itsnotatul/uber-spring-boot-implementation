@@ -1,6 +1,7 @@
 package com.example.UberDemoProject.controller;
 
 import com.example.UberDemoProject.dto.TaxiBookingRequest;
+import com.example.UberDemoProject.dto.TaxiBookingResponse;
 import com.example.UberDemoProject.model.Booking;
 import com.example.UberDemoProject.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,9 @@ public class BookingController {
     }
 
     @PostMapping("/taxi/book")  // post endpoint for booking taxi
-    public ResponseEntity<String> bookTaxi(@RequestBody TaxiBookingRequest request) {
-        return bookingService.bookTaxi(request);
+    public ResponseEntity<TaxiBookingResponse> bookTaxi(@RequestBody TaxiBookingRequest request) {
+        TaxiBookingResponse taxiBookingResponse =  bookingService.bookTaxi(request);
+        return ResponseEntity.ok(taxiBookingResponse);
 
     }
 

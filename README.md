@@ -112,11 +112,8 @@
     }
       ]
       
-      #FR #2:
-      
-      POST: http://localhost:8080/taxis/book
-      
-      body:
+# FR #2:  POST: http://localhost:8080/taxi/book
+# body:
       
       {
       "userId":2,    
@@ -125,9 +122,13 @@
       "bookingTime": "2024-10-23T01:30:00",
       "taxiType": "sedan"
       }
-      
-      Taxi booked successfully. Booking ID: 2. Status: PENDING. Please proceed to payment.
-      
+# Response: 
+      {
+       "bookingId": 3,
+       "status": "PENDING",
+       "message": "Taxi booked successfully. Please proceed to payment."
+      }
+# body:      
       {
       "userId":2,   
       "taxiId": 14,
@@ -135,21 +136,32 @@
       "bookingTime": "2024-10-20T01:30:00",
       "taxiType": "sedan"
       }
-      
-      Taxi with ID 14 not found.
+# response: 
       
       {
-      "userId":2,   
-      "taxiId": 4,
-      "distance": 10,
-      "bookingTime": "2024-10-20T01:30:00",
-      "taxiType": "sedan"
+       "bookingId": null,
+       "status": "NOT_FOUND",
+       "message": "Taxi with ID 14 not found."
       }
       
-      Taxi with ID 4 is not available.
+# body:  
+      {
+         "userId":2,   
+         "taxiId": 3,
+         "distance": 10,
+         "bookingTime": "2024-10-20T01:30:00",
+         "taxiType": "sedan"
+      }
+
+# response: 
+      {
+       "bookingId": null,
+       "status": "BAD_REQUEST",
+       "message": "Taxi with ID 3 is not available."
+      }
       
       
-      #FR #3: GET: http://localhost:8080/user/booking?userId=2
+# FR #3: GET: http://localhost:8080/user/booking?userId=2
       
       O/p:
       
@@ -298,4 +310,15 @@
          in Spring Data JPA, as it allows for better abstraction and less dependency on the underlying database schema. 
          If you ever need to write a query that doesn’t conform to the JPQL rules or requires specific SQL features, 
          then you would switch to a native query.
+
+9. # @ControllerAdvice
+        It is a powerful annotation in Spring that allows you to define global exception handlers and other 
+         cross-cutting concerns across multiple controllers.
+
+         Key Benefits:
+         
+         Centralized Exception Handling: By using @ControllerAdvice, you can consolidate all your exception handling 
+                           logic into a single class, making your code more organized and maintainable.
+         Consistent Error Handling: Ensures consistent error handling across your application, improving the user 
+                           experience.
 
