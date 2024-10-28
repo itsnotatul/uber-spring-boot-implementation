@@ -112,7 +112,7 @@
     }
       ]
       
-# FR #2:  POST: http://localhost:8080/taxi/book
+# FR #2:  POST: http://localhost:8080/api/v1/taxi/book
 # body:
       
       {
@@ -161,42 +161,67 @@
       }
       
       
-# FR #3: GET: http://localhost:8080/user/booking?userId=2
+# FR #3: GET: http://localhost:8080/api/v1/user/booking?userId=2
       
-      O/p:
-      
-      [
-      {
-      "id": 2,
-      "taxi": {
-      "id": 5,
-      "latitude": 12.97,
-      "longitude": 77.61,
-      "available": false,
-      "taxiType": "sedan"
-      },
-      "taxiType": "sedan",
-      "bookingTime": "2024-10-23T01:30:00",
-      "distance": 10.0,
-      "bookingStatus": "PENDING"
-      }
+# response:
+         [
+          {
+              "id": 3,
+              "taxi": {
+                  "id": 5,
+                  "latitude": 12.97,
+                  "longitude": 77.61,
+                  "available": false,
+                  "taxiType": "sedan"
+              },
+              "taxiType": "sedan",
+              "bookingTime": "2024-10-23T01:30:00",
+              "distance": 10.0,
+              "bookingStatus": "PENDING"
+          },
+          {
+              "id": 4,
+              "taxi": {
+                  "id": 4,
+                  "latitude": 12.956,
+                  "longitude": 77.6,
+                  "available": false,
+                  "taxiType": "go"
+              },
+              "taxiType": "sedan",
+              "bookingTime": "2024-10-20T01:30:00",
+              "distance": 10.0,
+              "bookingStatus": "PENDING"
+          }
       ]
-      
-      #FR #4: POST: http://localhost:8080/payment
-      
+       
+# FR #4: POST: http://localhost:8080/api/v1/payment
+
+# body:
       {
-      "bookingId":23
+      "bookingId":3
       }
       
-      O/P:
-      
-      Booking with ID 23 not found.
+# Response:
       
       {
-      "bookingId":2
+       "bookingId": 3,
+       "paymentStatus": "Success",
+       "updatedBookingStatus": "SUCCESS",
+       "message" : "Payment successful. Taxi is now booked"
       }
       
-      Payment successful. Booking ID: 2. Status: SUCCESS
+# body: 
+     {
+      "bookingId":22
+      }
+# response :      
+      {
+       "bookingId": null,
+       "paymentStatus": "Failure",
+       "updatedBookingStatus": "FAILED",
+       "message" : "Booking with ID 33 not found."
+      }
 
 
 

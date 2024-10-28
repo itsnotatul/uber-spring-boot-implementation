@@ -34,6 +34,6 @@ public class BookingController {
     public ResponseEntity<List<Booking>> getUserBookings(@RequestParam Long userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size){
         List<Booking> bookings = bookingService.getUserBookings(userId, page, size);
 
-        return new ResponseEntity<List<Booking>>(bookings, HttpStatus.OK);
+        return ResponseEntity.ok(bookings);
     }
 }

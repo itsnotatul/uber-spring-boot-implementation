@@ -1,6 +1,8 @@
 package com.example.UberDemoProject.exception;
 
+import com.example.UberDemoProject.dto.PaymentResponse;
 import com.example.UberDemoProject.dto.TaxiBookingResponse;
+import com.example.UberDemoProject.exception.exceptions.BookingIdNotFoundException;
 import com.example.UberDemoProject.exception.exceptions.TaxiNotFoundException;
 import com.example.UberDemoProject.exception.exceptions.TaxiUnavailableException;
 import com.example.UberDemoProject.exception.exceptions.UserNotFoundException;
@@ -20,6 +22,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<TaxiBookingResponse> handleUserNotFound(UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new TaxiBookingResponse(null,"NOT_FOUND", ex.getMessage()));
+    }
+
+    @ExceptionHandler(BookingIdNotFoundException.class)
+    public ResponseEntity<PaymentResponse> handleBookingNotFound( BookingIdNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new PaymentResponse(null,"Failure", "FAILED", ex.getMessage()));
     }
 
     @ExceptionHandler(TaxiUnavailableException.class)
