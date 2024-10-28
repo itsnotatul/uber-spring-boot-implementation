@@ -14,7 +14,7 @@ public interface TaxiRepository extends JpaRepository<Taxi,Long> {
 
     @Query(value = "SELECT t FROM Taxi t WHERE t.available = true " +
             "AND t.latitude BETWEEN :minLat AND :maxLat " +
-            "AND t.longitude BETWEEN :minLng AND :maxLng", nativeQuery = true)
+            "AND t.longitude BETWEEN :minLng AND :maxLng")
     List<Taxi> findAvailableTaxisInArea(@Param("minLat") Double minLat,
                                         @Param("maxLat") Double maxLat,
                                         @Param("minLng") Double minLng,

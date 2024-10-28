@@ -8,6 +8,7 @@ import com.example.UberDemoProject.model.User;
 import com.example.UberDemoProject.repo.BookingRepository;
 import com.example.UberDemoProject.repo.TaxiRepository;
 import com.example.UberDemoProject.repo.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,19 +20,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BookingService {
     private final PricingService pricingService;
     private final TaxiRepository taxiRepository;
     private final BookingRepository bookingRepository;  // Add the booking repository to save bookings
     private final UserRepository userRepository;
-
-
-    public BookingService(PricingService pricingService, TaxiRepository taxiRepository, BookingRepository bookingRepository, UserRepository userRepository) {
-        this.pricingService = pricingService;
-        this.taxiRepository = taxiRepository;
-        this.bookingRepository = bookingRepository;
-        this.userRepository = userRepository;
-    }
 
     public ResponseEntity<String> bookTaxi(TaxiBookingRequest request) {
 

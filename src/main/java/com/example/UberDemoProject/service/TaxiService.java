@@ -3,13 +3,16 @@ package com.example.UberDemoProject.service;
 import com.example.UberDemoProject.model.Taxi;
 import com.example.UberDemoProject.repo.TaxiRepository;
 import com.example.UberDemoProject.utils.LocationUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
+@Slf4j
 public class TaxiService {
 
     @Autowired
@@ -27,7 +30,7 @@ public class TaxiService {
         Double maxLng = boundaries[3];
 
         // Fetch from the database
-        System.out.println("Fetching taxis from the database");
+        log.info("fetching taxi's from db");
         return taxiRepository.findAvailableTaxisInArea(minLat, maxLat, minLng, maxLng);
     }
 
